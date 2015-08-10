@@ -1,0 +1,11 @@
+name             'openstack-model-t'
+maintainer       'The Authors'
+maintainer_email 'you@example.com'
+license          'all_rights'
+description      'Installs/Configures openstack-model-t'
+long_description 'Installs/Configures openstack-model-t'
+version          '0.1.0'
+
+depends 'apt'
+depends 'python'
+depends 'sysctl'

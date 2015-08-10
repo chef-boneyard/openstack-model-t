@@ -1,0 +1,5 @@
+[DEFAULT]
+compute_driver=libvirt.LibvirtDriver
+
+[libvirt]
+virt_type=<%= node[:openstack_model_t][:hardware_acceleration] %>
