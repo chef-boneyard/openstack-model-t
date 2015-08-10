@@ -1,5 +1,7 @@
 # openstack-model-t
 
+# PLEASE DON'T USE THIS TILL THE 1.0.0 Release, it's WIP till then!
+
 > "The Customer Can Have Any Color He Wants So Long As It's Black".
 **Henry Ford**
 
