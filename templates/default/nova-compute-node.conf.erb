@@ -14,6 +14,11 @@ rpc_backend = rabbit
 auth_strategy = keystone
 my_ip = <%= node[:openstack_model_t][:management_network_ip] %>
 
+network_api_class = nova.network.neutronv2.api.API
+security_group_api = neutron
+linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+firewall_driver = nova.virt.firewall.NoopFirewallDriver
+
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = <%= node[:openstack_model_t][:management_network_ip] %>
@@ -41,3 +46,12 @@ user_domain_id = default
 project_name = service
 username = nova
 password = <%= node[:openstack_model_t][:NOVA_PASS] %>
+
+[neutron]
+
+url = http://<%= node[:openstack_model_t][:management_network_ip] %>:9696
+auth_strategy = keystone
+admin_auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357/v2.0
+admin_tenant_name = service
+admin_username = neutron
+admin_password = <%= node[:openstack_model_t][:NOVA_PASS] %>

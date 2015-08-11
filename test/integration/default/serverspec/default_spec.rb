@@ -152,22 +152,22 @@ describe 'openstack-model-t::default' do
     it { should be_running }
   end
 
-  describe process("neurton-plugin-openvswitch-agent") do
+  describe process("neutron-plugin-openvswitch-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
   end
 
-  describe process("neurton-l3-agent") do
+  describe process("neutron-l3-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
   end
 
-  describe process("neurton-dhcp-agent") do
+  describe process("neutron-dhcp-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
   end
 
-  describe process("neurton-metadata-agent") do
+  describe process("neutron-metadata-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
   end

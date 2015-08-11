@@ -15,11 +15,25 @@ default[:openstack_model_t][:hardware_acceleration] = 'qemu'
 # An IP on the management network, the RED boxes.
 default[:openstack_model_t][:management_network_ip] = '127.0.0.1'
 
-# OVS needs a tunnel interface to talk to the other guys, the YELLOW?/BROWN? boxes.
+# OVS needs a tunnel interface to talk to the other guys, the BROWN boxes.
 default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'
 
 # OVS needs an external nic that doesn't have an IP, the TEAL box.
 default[:openstack_model_t][:network_node_external_bridge] = 'eth2'
+
+# OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
+default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth2'
+
+# Neutron external network options
+default[:openstack_model_t][:EXTERNAL_SUBNET] = '10.0.1.0/24'
+default[:openstack_model_t][:EXTERNAL_STARTING_IP] = '10.0.1.200'
+default[:openstack_model_t][:EXTERNAL_ENDING_IP] = '10.0.1.250'
+default[:openstack_model_t][:EXTERNAL_GATEWAY_IP] = '10.0.1.1'
+
+# Neutron demo network options
+default[:openstack_model_t][:DEMO_EXTERNAL_SUBNET] = '192.168.1.0/24'
+default[:openstack_model_t][:DEMO_GATEWAY_IP] = '192.168.1.1'
+
 
 # A generic password for everything
 imlazy = 'mypass'

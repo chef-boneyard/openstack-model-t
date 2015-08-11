@@ -3,7 +3,7 @@ driver:
   name: vagrant
   network:
     - ["private_network", {ip: "10.0.0.21"}]
-    - ["public_network", {bridge: "en0: Wi-Fi (AirPort)"}]
+    - ["public_network", {bridge: "en3: Thunderbolt Ethernet"}]
     - ["forwarded_port", {guest: 80, host: 8080, auto_correct: true}]
     - ["forwarded_port", {guest: 443, host: 8443}]
     - ["forwarded_port", {guest: 5000, host: 5000}]

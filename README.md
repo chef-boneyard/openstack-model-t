@@ -40,6 +40,11 @@ Replace METADATA_SECRET with a suitable secret for the metadata proxy.
 
 `default[:openstack_model_t][:METADATA_SECRET] = '7874fa60615f3f86ac1a'`
 
+OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
+
+`default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth2'`
+
+
 ### Hardware acceleration?
 
 Test via:

@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo "#"
+echo "#"
+echo "#"
+echo "#"
+echo "#"
+echo "# This will build out your basic networks for you."
+echo "#"
+echo "# Your external subnet is:  <%= node[:openstack_model_t][:EXTERNAL_SUBNET] %>"
+echo "# Your starting IP is:  <%= node[:openstack_model_t][:EXTERNAL_STARTING_IP] %>"
+echo "# Your ending IP is:  <%= node[:openstack_model_t][:EXTERNAL_ENDING_IP] %>"
+echo "# Your gateway IP is:  <%= node[:openstack_model_t][:EXTERNAL_GATEWAY_IP] %>"
+echo "#"
+echo "#"
+
+echo "# Sourcing your admin-openrc.sh"
+source /root/admin-openrc.sh
+
+echo "# Creating your first, or your 'external' network"
+neutron net-create ext-net --router:external --provider:physical_network external --provider:network_type flat
+
+echo "# Creating the external subnet with the options you've put in"
+neutron subnet-create ext-net  <%= node[:openstack_model_t][:EXTERNAL_SUBNET] %> --name ext-subnet --allocation-pool start=<%= node[:openstack_model_t][:EXTERNAL_STARTING_IP] %>,end=<%= node[:openstack_model_t][:EXTERNAL_ENDING_IP] %> --disable-dhcp --gateway <%= node[:openstack_model_t][:EXTERNAL_GATEWAY_IP] %>
+
+echo "#"
+echo "#"
+echo "# This will build out your demo network for you."
+echo "#"
+echo "# Your demo subnet is:  <%= node[:openstack_model_t][:DEMO_EXTERNAL_SUBNET] %>"
+echo "# Your gateway IP is:  <%= node[:openstack_model_t][:DEMO_GATEWAY_IP] %>"
+echo "#"
+echo "#"
+
+echo "# Sourcing the demo-openrc.sh"
+source /root/demo-openrc.sh
+
+echo "# Creating the demo network"
+neutron net-create demo-net
+
+echo "# Creating the demo subnet"
+neutron subnet-create demo-net <%= node[:openstack_model_t][:DEMO_EXTERNAL_SUBNET] %> --name demo-subnet --gateway <%= node[:openstack_model_t][:DEMO_GATEWAY_IP] %>
+
+echo "# Create the demo-router"
+neutron router-create demo-router
+
+echo "# Attach the router to the tenant"
+neutron router-interface-add demo-router demo-subnet
+
+echo "# Attach router to the external network"
+neutron router-gateway-set demo-router ext-net
