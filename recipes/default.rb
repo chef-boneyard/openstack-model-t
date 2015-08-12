@@ -58,6 +58,7 @@ include_recipe 'openstack-model-t::glance'
 include_recipe 'openstack-model-t::nova-controller-and-compute-node'
 include_recipe 'openstack-model-t::neutron-controller-node'
 include_recipe 'openstack-model-t::neutron-network-node'
+include_recipe 'openstack-model-t::horizon'
 
 template "/root/build_neutron_networks.sh" do
   source "build_neutron_networks.sh.erb"

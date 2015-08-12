@@ -58,6 +58,14 @@ describe 'openstack-model-t::default' do
     it { should exist }
   end
 
+  describe file('/etc/openstack-dashboard/local_settings.py') do
+    it { should exist }
+  end
+
+  describe port(80) do
+    it { should be_listening }
+  end
+
   describe port(5000) do
     it { should be_listening }
   end
@@ -152,7 +160,7 @@ describe 'openstack-model-t::default' do
     it { should be_running }
   end
 
-  describe process("neutron-plugin-openvswitch-agent") do
+  describe process("neutron-openvswitch-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
   end
