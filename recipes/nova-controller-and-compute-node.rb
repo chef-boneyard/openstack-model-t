@@ -92,10 +92,12 @@ end
 bash "run nova-mange db sync" do
   user "nova"
   cwd "/tmp"
-  creates "maybe"
+  creates "/tmp/ran-nova-db-sync"
   code <<-EOH
     STATUS=0
+    sleep 10
     nova-manage db sync || STATUS=1
+    touch /tmp/ran-nova-db-sync
     exit $STATUS
   EOH
 end
