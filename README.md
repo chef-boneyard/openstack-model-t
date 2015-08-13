@@ -15,11 +15,9 @@ This build is also [test-kitchened](http://kitchen.ci) with a good coverage of [
 
 ## Attributes to change/override.
 
-WARNING:
+**WARNING**:
 
-Admin token for keystone this is insecure, you probably should remove this after deployment for security reasons, disable the temporary authentication token mechanism: edit the `/etc/keystone/keystone-paste.ini` file and remove admin_token_auth from the `[pipeline:public_api]`, `[pipeline:admin_api]`, and `[pipeline:api_v3]` sections. Unset the temporary `OS_TOKEN` and `OS_URL` environment variables:
-
-`default[:openstack_model_t][:admin_token] = 'b14feea8128a0a1bbd60'`
+Admin token for keystone this is insecure, you probably should remove this after deployment for security reasons, disable the temporary authentication token mechanism: edit the `/etc/keystone/keystone-paste.ini` file and remove admin_token_auth from the `[pipeline:public_api]`, `[pipeline:admin_api]`, and `[pipeline:api_v3]` sections. Unset the temporary `OS_TOKEN` and `OS_URL` environment variables: `default[:openstack_model_t][:admin_token] = 'b14feea8128a0a1bbd60'`
 
 ### Networking stuff
 
@@ -34,6 +32,7 @@ OVS needs a tunnel interface to talk to the other guys, the YELLOW?/BROWN? boxes
 `default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'`
 
 OVS needs an external nic that doesn't have an IP, the TEAL box.
+
 `default[:openstack_model_t][:network_node_external_bridge] = 'eth2'`
 
 Replace METADATA_SECRET with a suitable secret for the metadata proxy.
@@ -59,7 +58,7 @@ If it comes back anything other than zero, you should override this attribute to
 ## TODO
 - Write a cleanup recipe
 - Write up the ability to split out the db machine to another host "mysql -h blahblah"
-
+- Write up a openstack/horizon from SRC build, the ubuntu branded is ugly :(
 
 
 Keystone instance:

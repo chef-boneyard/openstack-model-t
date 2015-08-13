@@ -102,32 +102,26 @@ end
 
 service 'nova-api' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-cert' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-consoleauth' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-scheduler' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-conductor' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-novncproxy' do
   supports :restart => true, :reload => true
-  action :enable
 end
 
 service 'nova-compute' do

@@ -23,6 +23,12 @@ neutron net-create ext-net --router:external --provider:physical_network externa
 echo "# Creating the external subnet with the options you've put in"
 neutron subnet-create ext-net  <%= node[:openstack_model_t][:EXTERNAL_SUBNET] %> --name ext-subnet --allocation-pool start=<%= node[:openstack_model_t][:EXTERNAL_STARTING_IP] %>,end=<%= node[:openstack_model_t][:EXTERNAL_ENDING_IP] %> --disable-dhcp --gateway <%= node[:openstack_model_t][:EXTERNAL_GATEWAY_IP] %>
 
+echo "# Because you haven't I'm putting CirrOS on here too"
+mkdir /tmp/images
+wget -P /tmp/images http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-x86_64-disk.img
+glance image-create --name "cirros-0.3.4-x86_64" --file /tmp/images/cirros-0.3.4-x86_64-disk.img --disk-format qcow2 --container-format bare --progress
+rm -rf /tmp/images
+
 echo "#"
 echo "#"
 echo "# This will build out your demo network for you."
@@ -49,3 +55,15 @@ neutron router-interface-add demo-router demo-subnet
 
 echo "# Attach router to the external network"
 neutron router-gateway-set demo-router ext-net
+
+echo "# Generating the demo keypair"
+nova keypair-add demo-key
+
+echo "# Listing the keypair"
+nova keypair-list
+
+echo "# Listing flavors"
+nova flavor-list
+
+echo "# Listing networks"
+neutron net-list

@@ -10,8 +10,8 @@ end
 
 template "/etc/openstack-dashboard/local_settings.py" do
   source "local_settings.py.erb"
-  owner "apache"
-  group "apache"
+  owner "horizon"
+  group "horizon"
   mode "0644"
 end
 
