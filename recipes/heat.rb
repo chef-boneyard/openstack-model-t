@@ -29,7 +29,7 @@ bash "create heat user" do
     openstack role add --project service --user heat admin || STATUS=1
     openstack role create heat_stack_owner || STATUS=1
     openstack role add --project demo --user demo heat_stack_owner || STATUS=1
-    openstack role cerate heat_stack_user || STATUS=1
+    openstack role create heat_stack_user || STATUS=1
     touch /root/model-t-setup/created-heat-user || STATUS=1
     exit $STATUS
   EOH

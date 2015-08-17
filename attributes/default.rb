@@ -3,11 +3,20 @@
 # The release you want to build your OpenStack cloud
 default[:openstack_model_t][:release] = 'kilo'
 
+# Default to turning off Ubuntu thememing for the dashboard
+default[:openstack_model_t][:ubuntu_themeing] = false
+
 # ServerName for the controller
 default[:openstack_model_t][:controller_servername] = 'controller'
 
 # Want hardware acceleration? change from qemu to kvm
 default[:openstack_model_t][:hardware_acceleration] = 'qemu'
+
+# You'll want to set up a location for lvm
+# You should probably read:
+# http://docs.openstack.org/kilo/install-guide/install/apt/content/cinder-install-storage-node.html
+default[:openstack_model_t][:lvm_device] = 'sdb'
+default[:openstack_model_t][:lvm_physical_volume] = '/dev/sdb1'
 
 # You should look at:
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/figures/1/a/common/figures/installguidearch-neutron-networks.png

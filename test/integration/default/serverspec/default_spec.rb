@@ -62,11 +62,29 @@ describe 'openstack-model-t::default' do
     it { should exist }
   end
 
+  describe file('/etc/cinder/cinder.conf') do
+    its(:content) { should match /mysql:\/\/cinder:/ }
+    it { should exist }
+  end
+
+  describe file('/etc/heat/heat.conf') do
+    its(:content) { should match /mysql:\/\/heat:/ }
+    it { should exist }
+  end
+
   describe port(80) do
     it { should be_listening }
   end
 
   describe port(5000) do
+    it { should be_listening }
+  end
+
+  describe port(8000) do
+    it { should be_listening }
+  end
+
+  describe port(8004) do
     it { should be_listening }
   end
 
@@ -79,6 +97,10 @@ describe 'openstack-model-t::default' do
   end
 
   describe port(8775) do
+    it { should be_listening }
+  end
+
+  describe port(8776) do
     it { should be_listening }
   end
 

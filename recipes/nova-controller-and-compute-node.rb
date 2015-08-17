@@ -104,31 +104,37 @@ end
 
 service 'nova-api' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-cert' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-consoleauth' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-scheduler' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-conductor' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-novncproxy' do
   supports :restart => true, :reload => true
+  action :nothing
 end
 
 service 'nova-compute' do
   supports :restart => true, :reload => true
-  action :enable
+  action :nothing
 end
 
 file '/var/lib/nova/nova.sqlite' do

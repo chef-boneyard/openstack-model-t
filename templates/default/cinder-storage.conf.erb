@@ -1,0 +1,51 @@
+[DEFAULT]
+rootwrap_config = /etc/cinder/rootwrap.conf
+api_paste_confg = /etc/cinder/api-paste.ini
+iscsi_helper = tgtadm
+volume_name_template = volume-%s
+volume_group = cinder-volumes
+verbose = True
+auth_strategy = keystone
+state_path = /var/lib/cinder
+lock_path = /var/lock/cinder
+volumes_dir = /var/lib/cinder/volumes
+enabled_backends = lvm
+
+glance_host = <%= node[:openstack_model_t][:management_network_ip] %>
+
+auth_strategy = keystone
+
+rpc_backend = rabbit
+
+my_ip = <%= node[:openstack_model_t][:management_network_ip] %>
+
+[oslo_messaging_rabbit]
+
+rabbit_host = <%= node[:openstack_model_t][:management_network_ip] %>
+rabbit_userid = openstack
+rabbit_password = <%= node[:openstack_model_t][:RABBIT_PASS] %>
+
+[database]
+
+connection = mysql://cinder:<%= node[:openstack_model_t][:CINDER_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/cinder
+
+[keystone_authtoken]
+auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000/v2.0
+auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_plugin = password
+project_domain_id = default
+user_domain_id = default
+project_name = service
+username = cinder
+password = <%= node[:openstack_model_t][:CINDER_PASS] %>
+
+[lvm]
+
+volume_driver = cinder.volume.drivers.lvm.LVMVolumeDriver
+volume_group = cinder-volumes
+iscsi_protocol = iscsi
+iscsi_helper = tgtadm
+
+[oslo_concurrency]
+
+lock_path = /var/lock/cinder
