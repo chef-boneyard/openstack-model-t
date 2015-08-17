@@ -15,16 +15,12 @@ template "/etc/openstack-dashboard/local_settings.py" do
   mode "0644"
 end
 
-if node[:openstack_model_t][:ubuntu_themeing]
-  package 'openstack-dashboard-ubuntu-theme' do
-    action :install
-  end
-else
-  package 'openstack-dashboard-ubuntu-theme' do
-    action :purge
-  end
-end
+# unless true
+#   package 'openstack-dashboard-ubuntu-theme' do
+#     action :purge
+#   end
+# end
 
 service "apache2" do
-  action [ :reload ]
+  action :reload
 end

@@ -41,7 +41,7 @@ bash "create nova service and api endpoint" do
     STATUS=0
     source passwords2dostuff || STATUS=1
     openstack service create --name nova --description "OpenStack Compute service" compute || STATUS=1
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:8774/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:8774/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:8774/v2/%\\(tenant_id\\)s --region RegionOne compute
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --region RegionOne compute
     touch /root/model-t-setup/created-glance-service-and-api
     exit $STATUS
   EOH

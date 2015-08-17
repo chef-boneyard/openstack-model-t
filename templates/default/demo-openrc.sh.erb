@@ -6,6 +6,6 @@ export OS_PROJECT_NAME=demo
 export OS_TENANT_NAME=demo
 export OS_USERNAME=demo
 export OS_PASSWORD=<%= node[:openstack_model_t][:DEMO_PASS] %>
-export OS_AUTH_URL=http://<%= node[:openstack_model_t][:management_network_ip] %>:5000/v3
+export OS_AUTH_URL=http://<%= node[:openstack_model_t][:controller_ip] %>:5000/v3
 export OS_REGION_NAME=RegionOne
 export OS_IMAGE_API_VERSION=2

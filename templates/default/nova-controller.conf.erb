@@ -12,34 +12,34 @@ api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 rpc_backend = rabbit
 auth_strategy = keystone
-my_ip = <%= node[:openstack_model_t][:management_network_ip] %>
+my_ip = <%= node[:openstack_model_t][:controller_ip] %>
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
 linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
-vncserver_listen = <%= node[:openstack_model_t][:management_network_ip] %>
-vncserver_proxyclient_address = <%= node[:openstack_model_t][:management_network_ip] %>
+vncserver_listen = <%= node[:openstack_model_t][:controller_ip] %>
+vncserver_proxyclient_address = <%= node[:openstack_model_t][:controller_ip] %>
 
 [glance]
-host = <%= node[:openstack_model_t][:management_network_ip] %>
+host = <%= node[:openstack_model_t][:controller_ip] %>
 
 [oslo_concurrency]
 lock_path = /var/lib/nova/tmp
 
 [database]
-connection = mysql://nova:<%= node[:openstack_model_t][:NOVA_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/nova
+connection = mysql://nova:<%= node[:openstack_model_t][:NOVA_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/nova
 
 [oslo_messaging_rabbit]
 
-rabbit_host = <%= node[:openstack_model_t][:management_network_ip] %>
+rabbit_host = <%= node[:openstack_model_t][:controller_ip] %>
 rabbit_userid = openstack
 rabbit_password = <%= node[:openstack_model_t][:RABBIT_PASS] %>
 
 [keystone_authtoken]
 
-auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_uri = http://<%= node[:openstack_model_t][:controller_ip] %>:5000
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -49,9 +49,9 @@ password = <%= node[:openstack_model_t][:NOVA_PASS] %>
 
 [neutron]
 
-url = http://<%= node[:openstack_model_t][:management_network_ip] %>:9696
+url = http://<%= node[:openstack_model_t][:controller_ip] %>:9696
 auth_strategy = keystone
-admin_auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357/v2.0
+admin_auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357/v2.0
 admin_tenant_name = service
 admin_username = neutron
 admin_password = <%= node[:openstack_model_t][:NEUTRON_PASS] %>

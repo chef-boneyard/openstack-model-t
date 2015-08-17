@@ -336,7 +336,7 @@ notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 
 # URL for connection to nova (Only supports one nova region currently).
-nova_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:8774/v2
+nova_url = http://<%= node[:openstack_model_t][:controller_ip] %>:8774/v2
 
 # Name of nova region to use. Useful if keystone manages more than one region
 # nova_region_name =
@@ -685,8 +685,8 @@ root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
 # ===========  end of items for agent management extension =====
 
 [keystone_authtoken]
-auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_uri = http://<%= node[:openstack_model_t][:controller_ip] %>:5000
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -698,7 +698,7 @@ password = <%= node[:openstack_model_t][:NEUTRON_PASS] %>
 # This line MUST be changed to actually run the plugin.
 # Example:
 #connection = sqlite:////var/lib/neutron/neutron.sqlite
-connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/neutron
+connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/neutron
 # Replace 127.0.0.1 above with the IP address of the database used by the
 # main neutron server. (Leave it as is if the database runs on this host.)
 # connection = sqlite://
@@ -768,7 +768,7 @@ connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%
 # Timeout value for http requests
 # timeout =
 
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
@@ -922,7 +922,7 @@ lock_path = $state_path/lock
 
 [oslo_messaging_rabbit]
 
-rabbit_host = <%= node[:openstack_model_t][:management_network_ip] %>
+rabbit_host = <%= node[:openstack_model_t][:controller_ip] %>
 rabbit_userid = openstack
 rabbit_password = <%= node[:openstack_model_t][:RABBIT_PASS] %>
 

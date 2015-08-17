@@ -1,6 +1,6 @@
 [mysqld]
 
-bind-address = <%= node[:openstack_model_t][:management_network_ip] %>
+bind-address = <%= node[:openstack_model_t][:controller_ip] %>
 
 default-storage-engine = innodb
 innodb_file_per_table

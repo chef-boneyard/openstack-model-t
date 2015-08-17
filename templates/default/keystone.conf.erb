@@ -417,7 +417,7 @@ log_dir = /var/log/keystone
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
 #connection = <None>
-connection = mysql://keystone:<%= node[:openstack_model_t][:KEYSTONE_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/keystone
+connection = mysql://keystone:<%= node[:openstack_model_t][:KEYSTONE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/keystone
 
 # The SQLAlchemy connection string to use to connect to the slave database.
 # (string value)

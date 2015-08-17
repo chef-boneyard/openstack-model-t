@@ -12,8 +12,8 @@
 # admin_tenant_name = %SERVICE_TENANT_NAME%
 # admin_user = %SERVICE_USER%
 # admin_password = %SERVICE_PASSWORD%
-auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_uri = http://<%= node[:openstack_model_t][:controller_ip] %>:5000
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_region = RegionOne
 auth_plugin = password
 project_domain_id = default
@@ -25,7 +25,7 @@ password = <%= node[:openstack_model_t][:NEUTRON_PASS] %>
 # endpoint_type = adminURL
 
 # IP address used by Nova metadata server
-nova_metadata_ip = <%= node[:openstack_model_t][:management_network_ip] %>
+nova_metadata_ip = <%= node[:openstack_model_t][:controller_ip] %>
 
 # TCP Port used by Nova metadata server
 # nova_metadata_port = 8775

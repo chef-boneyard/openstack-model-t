@@ -151,7 +151,7 @@ bash "create keystone api endpoint" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:5000/v2.0 --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:5000/v2.0 --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:35357/v2.0 --region RegionOne identity || STATUS=1
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 --internalurl http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:35357/v2.0 --region RegionOne identity || STATUS=1
     touch /root/model-t-setup/created-keystone-api-endpoint || STATUS=1
     exit $STATUS
   EOH

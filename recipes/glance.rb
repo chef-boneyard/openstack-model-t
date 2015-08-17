@@ -40,7 +40,7 @@ bash "create glance service and api endpoint" do
     STATUS=0
     source passwords2dostuff || STATUS=1
     openstack service create --name glance --description "OpenStack Image service" image
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:9292 --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:9292 --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:9292 --region RegionOne  image
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:9292 --internalurl http://#{node[:openstack_model_t][:controller_ip]}:9292 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:9292 --region RegionOne  image
     touch /root/model-t-setup/created-glance-service-and-api
     exit $STATUS
   EOH

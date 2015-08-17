@@ -25,7 +25,7 @@ Admin token for keystone this is insecure, you probably should remove this after
 
 An IP on the management network, the RED boxes.
 
-`default[:openstack_model_t][:management_network_ip] = '127.0.0.1'`
+`default[:openstack_model_t][:controller_ip] = '127.0.0.1'`
 
 OVS needs a tunnel interface to talk to the other guys, the YELLOW?/BROWN? boxes.
 

@@ -40,7 +40,7 @@ bash "create neutron service and api endpoint" do
     STATUS=0
     source passwords2dostuff || STATUS=1
     openstack service create --name neutron --description "OpenStack Networking service" network
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:9696 --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:9696 --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:9696 --region RegionOne network
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --internalurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --region RegionOne network
     touch /root/model-t-setup/created-neutron-service-and-api
     exit $STATUS
   EOH

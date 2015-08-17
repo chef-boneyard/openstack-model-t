@@ -41,8 +41,8 @@ bash "create cinder service and api endpoint" do
     source passwords2dostuff || STATUS=1
     openstack service create --name cinder --description "OpenStack Block Storage" volume
     openstack service create --name cinder --description "OpenStack Block Storage" volumev2
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --region RegionOne volume
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:management_network_ip]}:8776/v2/%\\(tenant_id\\)s --region RegionOne volumev2
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --region RegionOne volume
+    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8776/v2/%\\(tenant_id\\)s --region RegionOne volumev2
     touch /root/model-t-setup/created-cinder-service-and-api
     exit $STATUS
   EOH

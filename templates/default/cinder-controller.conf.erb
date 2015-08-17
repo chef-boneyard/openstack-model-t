@@ -14,21 +14,21 @@ auth_strategy = keystone
 
 rpc_backend = rabbit
 
-my_ip = <%= node[:openstack_model_t][:management_network_ip] %>
+my_ip = <%= node[:openstack_model_t][:controller_ip] %>
 
 [oslo_messaging_rabbit]
 
-rabbit_host = <%= node[:openstack_model_t][:management_network_ip] %>
+rabbit_host = <%= node[:openstack_model_t][:controller_ip] %>
 rabbit_userid = openstack
 rabbit_password = <%= node[:openstack_model_t][:RABBIT_PASS] %>
 
 [database]
 
-connection = mysql://cinder:<%= node[:openstack_model_t][:CINDER_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/cinder
+connection = mysql://cinder:<%= node[:openstack_model_t][:CINDER_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/cinder
 
 [keystone_authtoken]
-auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000/v2.0
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_uri = http://<%= node[:openstack_model_t][:controller_ip] %>:5000/v2.0
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

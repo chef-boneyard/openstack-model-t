@@ -336,7 +336,7 @@ image_cache_dir = /var/lib/glance/image-cache/
 # Deprecated group/name - [DEFAULT]/sql_connection
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
-connection = mysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:management_network_ip] %>/glance
+connection = mysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/glance
 
 # The SQL mode to be used for MySQL sessions. This option,
 # including the default, overrides any server-set SQL mode. To
@@ -431,8 +431,8 @@ connection = mysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= 
 #lock_path = /tmp
 
 [keystone_authtoken]
-auth_uri = http://<%= node[:openstack_model_t][:management_network_ip] %>:5000
-auth_url = http://<%= node[:openstack_model_t][:management_network_ip] %>:35357
+auth_uri = http://<%= node[:openstack_model_t][:controller_ip] %>:5000
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default

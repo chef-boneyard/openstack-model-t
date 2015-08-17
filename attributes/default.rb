@@ -22,7 +22,7 @@ default[:openstack_model_t][:lvm_physical_volume] = '/dev/sdb1'
 # http://docs.openstack.org/kilo/install-guide/install/apt/content/figures/1/a/common/figures/installguidearch-neutron-networks.png
 
 # An IP on the management network, the RED boxes.
-default[:openstack_model_t][:management_network_ip] = '127.0.0.1'
+default[:openstack_model_t][:controller_ip] = '127.0.0.1'
 
 # OVS needs a tunnel interface to talk to the other guys, the BROWN boxes.
 default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'
