@@ -33,7 +33,7 @@ when 'source'
 
   include_recipe "openstack-model-t::source_prep"
 
-  git "#{node[:openstack_model_t][:default_install_loctation]}/keystone" do
+  git "#{node[:openstack_model_t][:default_install_location]}/keystone" do
     repository node[:openstack_model_t][:git_keystone]
     revision node[:openstack_model_t][:git_keystone_tag]
     action :sync
