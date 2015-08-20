@@ -51,6 +51,17 @@ directory "/root/model-t-setup" do
   action :create
 end
 
+case node[:openstack_model_t][:code]
+when 'source'
+  %w{git}.each do |pkg|
+    package pkg do
+      action [:install]
+    end
+  end
+
+  include_recipe 'python::default'
+end
+
 include_recipe 'openstack-model-t::mysql'
 include_recipe 'openstack-model-t::rabbitmq'
 include_recipe 'openstack-model-t::keystone'

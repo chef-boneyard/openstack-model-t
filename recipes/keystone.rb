@@ -28,10 +28,51 @@ bash "disable keystone service from starting after installation" do
     exit $STATUS
   EOH
 end
+case node[:openstack_model_t][:code]
+when 'source'
 
-%w{keystone python-openstackclient apache2 libapache2-mod-wsgi memcached python-memcache}.each do |pkg|
-  package pkg do
-    action [:install]
+  include_recipe "openstack-model-t::source_prep"
+
+  git "#{node[:openstack_model_t][:default_install_loctation]}/keystone" do
+    repository node[:openstack_model_t][:git_keystone]
+    revision node[:openstack_model_t][:git_keystone_tag]
+    action :sync
+  end
+
+  bash "running python setup" do
+    user "root"
+    cwd "#{node[:openstack_model_t][:default_install_loctation]}/keystone"
+    creates "/root/model-t-setup/keystone_python_setup"
+    code <<-EOH
+    STATUS=0
+    python setup.py install || STATUS=1
+    touch /root/model-t-setup/keystone_python_setup || STATUS=1
+    exit $STATUS
+  EOH
+  end
+
+  group 'keystone' do
+    action :create
+    append true
+    gid 1234
+  end
+
+  user 'keystone' do
+    comment 'keystone user'
+    uid 1234
+    gid 1234
+    home '/opt/model-t/keystone'
+    shell '/bin/false'
+    password '$1$JJsvHslasdfjVEroftprNn4JHtDi'
+  end
+
+  include_recipe 'openstack-model-t::apache'
+
+when 'packages'
+  %w{keystone python-openstackclient apache2 libapache2-mod-wsgi memcached python-memcache}.each do |pkg|
+    package pkg do
+      action [:install]
+    end
   end
 end
 
@@ -75,10 +116,11 @@ end
 bash "run keystone-mange db_sync" do
   user "keystone"
   cwd "/tmp"
-  creates "maybe"
+  creates "/tmp/ran_keystone_db_sync"
   code <<-EOH
     STATUS=0
     keystone-manage db_sync || STATUS=1
+    touch /tmp/ran_keystone_db_sync
     exit $STATUS
   EOH
 end
