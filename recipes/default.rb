@@ -5,6 +5,7 @@
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 include_recipe 'apt'
+include_recipe 'python'
 
 package "ntp" do
   action :install
@@ -59,7 +60,6 @@ when 'source'
     end
   end
 
-  include_recipe 'python::default'
 end
 
 include_recipe 'openstack-model-t::mysql'

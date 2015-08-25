@@ -7,7 +7,7 @@
 directory "/opt/model-t/" do
   owner "root"
   group "root"
-  mode "0766"
+  mode "0755"
   action :create
 end
 
