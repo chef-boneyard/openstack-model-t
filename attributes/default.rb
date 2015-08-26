@@ -3,9 +3,6 @@
 # The release you want to build your OpenStack cloud
 default[:openstack_model_t][:release] = 'kilo'
 
-# How you want to get your code. Options: source or packages
-default[:openstack_model_t][:code] = 'packages'
-
 # Default to turning off Ubuntu thememing for the dashboard
 default[:openstack_model_t][:ubuntu_themeing] = false
 
@@ -17,13 +14,6 @@ default[:openstack_model_t][:hardware_acceleration] = 'qemu'
 
 # Installation path
 default[:openstack_model_t][:default_install_location] = '/opt/model-t'
-
-# Lets pull trunk because #YOLO
-tag = 'master'
-
-# Git repositories
-default[:openstack_model_t][:git_keystone] = 'https://git.openstack.org/openstack/keystone.git'
-default[:openstack_model_t][:git_keystone_tag] = tag
 
 # You'll want to set up a location for lvm
 # You should probably read:

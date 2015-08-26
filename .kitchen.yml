@@ -28,9 +28,3 @@ suites:
     run_list:
       - recipe[openstack-model-t::default]
     attributes:
-  - name: default-source
-    run_list:
-      - recipe[openstack-model-t::default]
-    attributes:
-      openstack_model_t:
-        code: source

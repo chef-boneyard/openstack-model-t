@@ -29,77 +29,10 @@ bash "disable keystone service from starting after installation" do
   EOH
 end
 
-case node[:openstack_model_t][:code]
-when 'source'
 
-  include_recipe "openstack-model-t::source_prep"
-
-  git "#{node[:openstack_model_t][:default_install_location]}/keystone" do
-    repository node[:openstack_model_t][:git_keystone]
-    revision node[:openstack_model_t][:git_keystone_tag]
-    destination "#{node[:openstack_model_t][:default_install_location]}/keystone"
-    action :sync
-  end
-
-  python_virtualenv "#{node[:openstack_model_t][:default_install_location]}/keystone" do
-    interpreter "python2.7"
-    owner 'root'
-    group 'root'
-    action :create
-  end
-
-  bash "running python setup" do
-    user "root"
-    cwd "#{node[:openstack_model_t][:default_install_location]}/keystone"
-    creates "/root/model-t-setup/keystone_python_setup"
-    code <<-EOH
-      STATUS=0
-      source bin/activate || STATUS=1
-      pip2.7 install -r requirements.txt || STATUS=1
-      python2.7 setup.py install || STATUS=1
-      touch /root/model-t-setup/keystone_python_setup || STATUS=1
-      exit $STATUS
-    EOH
-  end
-
-  group 'keystone' do
-    action :create
-    append true
-    gid 1234
-  end
-
-  user 'keystone' do
-    comment 'keystone user'
-    uid 1234
-    gid 1234
-    home '/opt/model-t/keystone'
-    shell '/bin/false'
-    password '$1$JJsvHslasdfjVEroftprNn4JHtDi'
-  end
-
-  directory "/opt/model-t/keystone" do
-    owner "keystone"
-    group "keystone"
-    mode "0755"
-    action :create
-  end
-
-  include_recipe 'openstack-model-t::apache'
-
-  directory "/var/log/keystone/" do
-    owner "keystone"
-    group "keystone"
-    mode "0755"
-    action :create
-  end
-
-
-when 'packages'
-
-  %w{keystone python-openstackclient apache2 libapache2-mod-wsgi memcached python-memcache}.each do |pkg|
-    package pkg do
-      action [:install]
-    end
+%w{keystone python-openstackclient apache2 libapache2-mod-wsgi memcached python-memcache}.each do |pkg|
+  package pkg do
+    action [:install]
   end
 end
 
@@ -140,40 +73,16 @@ template "/etc/apache2/apache2.conf" do
   notifies :restart, 'service[apache2]', :delayed
 end
 
-case node[:openstack_model_t][:code]
-when 'source'
-
-  package 'libmariadbclient-dev' do
-    action :install
-  end
-
-  bash "run keystone-mange db_sync" do
-    user "keystone"
-    cwd "#{node[:openstack_model_t][:default_install_location]}/keystone"
-    creates "#{node[:openstack_model_t][:default_install_location]}/keystone/ran_keystone_db_sync"
-    code <<-EOH
-    STATUS=0
-      source bin/activate || STATUS=1
-      pip2.7 install mysql-python || STATUS=1
+bash "run keystone-mange db_sync" do
+  user "keystone"
+  cwd "/tmp"
+  creates "/tmp/ran_keystone_db_sync"
+  code <<-EOH
+      STATUS=0
       keystone-manage db_sync || STATUS=1
-      touch "#{node[:openstack_model_t][:default_install_location]}/keystone/ran_keystone_db_sync" || STATUS=1
+      touch /tmp/ran_keystone_db_sync
       exit $STATUS
     EOH
-  end
-
-
-when 'packages'
-  bash "run keystone-mange db_sync" do
-    user "keystone"
-    cwd "/tmp"
-    creates "/tmp/ran_keystone_db_sync"
-    code <<-EOH
-    STATUS=0
-    keystone-manage db_sync || STATUS=1
-    touch /tmp/ran_keystone_db_sync
-    exit $STATUS
-  EOH
-  end
 end
 
 link '/etc/apache2/sites-enabled/wsgi-keystone.conf' do
