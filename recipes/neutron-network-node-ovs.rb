@@ -29,7 +29,7 @@ bash "sysctl check" do
   EOH
 end
 
-%w{neutron-plugin-ml2 neutron-plugin-linuxbridge-agent neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent}.each do |pkg|
+%w{neutron-plugin-ml2 neutron-plugin-openvswitch-agent neutron-l3-agent neutron-dhcp-agent neutron-metadata-agent}.each do |pkg|
   package pkg do
     action [:install]
   end
@@ -88,6 +88,29 @@ service 'nova-api' do
   action :restart
 end
 
+service 'openvswitch-switch' do
+  supports :restart => true, :reload => true
+  action :restart
+end
+
+bash "create ovs external bridge" do
+  user "root"
+  cwd "/root"
+  creates "/root/model-t-setup/network-node-external-ovs-bridge"
+  code <<-EOH
+    STATUS=0
+    ovs-vsctl add-br br-ex || STATUS=1
+    ovs-vsctl add-port br-ex #{node[:openstack_model_t][:network_node_external_bridge]} || STATUS=1
+    touch /root/model-t-setup/network-node-external-ovs-bridge
+    exit $STATUS
+  EOH
+end
+
+service 'neutron-plugin-openvswitch-agent' do
+  supports :restart => true, :reload => true
+  action :restart
+end
+
 service 'neutron-l3-agent' do
   supports :restart => true, :reload => true
   action :restart
@@ -99,11 +122,6 @@ service 'neutron-dhcp-agent' do
 end
 
 service 'neutron-metadata-agent' do
-  supports :restart => true, :reload => true
-  action :restart
-end
-
-service 'neutron-plugin-linuxbridge-agent' do
   supports :restart => true, :reload => true
   action :restart
 end

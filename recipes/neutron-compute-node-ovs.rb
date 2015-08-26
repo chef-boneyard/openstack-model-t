@@ -33,7 +33,7 @@ bash "sysctl check" do
   EOH
 end
 
-%w{neutron-plugin-ml2 neutron-plugin-linuxbridge-agent}.each do |pkg|
+%w{neutron-plugin-ml2 neutron-plugin-openvswitch-agent}.each do |pkg|
   package pkg do
     action [:install]
   end
@@ -53,6 +53,11 @@ template "/etc/neutron/plugins/ml2/ml2_conf.ini" do
   mode "0644"
 end
 
+service 'openvswitch-switch' do
+  supports :restart => true, :reload => true
+  action :restart
+end
+
 template "/etc/nova/nova.conf" do
   source "nova-compute-node.conf.erb"
   owner "nova"
@@ -60,12 +65,12 @@ template "/etc/nova/nova.conf" do
   mode "0644"
 end
 
-service 'neutron-linuxbridge-agent' do
+service 'nova-compute' do
   supports :restart => true, :reload => true
   action :restart
 end
 
-service 'nova-compute' do
+service 'neutron-plugin-openvswitch-agent' do
   supports :restart => true, :reload => true
   action :restart
 end

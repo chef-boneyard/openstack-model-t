@@ -1,6 +1,6 @@
 [DEFAULT]
 # Print more verbose output (set logging level to INFO instead of default WARNING level).
-verbose = True
+# verbose = False
 
 # =========Start Global Config Option for Distributed L3 Router===============
 # Setting the "router_distributed" flag to "True" will default to the creation
@@ -693,7 +693,6 @@ user_domain_id = default
 project_name = service
 username = neutron
 password = <%= node[:openstack_model_t][:NEUTRON_PASS] %>
-
 
 [database]
 # This line MUST be changed to actually run the plugin.

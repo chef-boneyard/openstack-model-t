@@ -1,6 +1,6 @@
 [DEFAULT]
 # Print more verbose output (set logging level to INFO instead of default WARNING level).
-# verbose = False
+verbose = True
 
 # =========Start Global Config Option for Distributed L3 Router===============
 # Setting the "router_distributed" flag to "True" will default to the creation
@@ -769,14 +769,16 @@ connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%
 # Timeout value for http requests
 # timeout =
 
-auth_url = http://127.0.0.1:35357
+
+auth_url = http://<%= node[:openstack_model_t][:controller_ip] %>:35357
 auth_plugin = password
 project_domain_id = default
 user_domain_id = default
-region_name = RegionOne
 project_name = service
-username = nova
-password = mypass
+password = <%= node[:openstack_model_t][:NOVA_PASS] %>
+region_name = RegionOne
+
+
 
 [oslo_concurrency]
 
@@ -826,7 +828,8 @@ lock_path = $state_path/lock
 # Deprecated group/name - [amqp1]/container_name
 # container_name =
 
-# Timeout for inactive connections (in seconds) (integer value)
+# Timeout
+for inactive connections (in seconds) (integer value)
 # Deprecated group/name - [amqp1]/idle_timeout
 # idle_timeout = 0
 

@@ -9,7 +9,7 @@
 
 # The DHCP agent requires an interface driver be set. Choose the one that best
 # matches your plugin.
-interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
 
 # Example of interface_driver option for OVS based plugins(OVS, Ryu, NEC, NVP,
 # BigSwitch/Floodlight)
@@ -34,7 +34,7 @@ dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
 # iproute2 package that supports namespaces). This option is deprecated and
 # will be removed in a future release, at which point the old behavior of
 # use_namespaces = True will be enforced.
-use_namespaces = True
+# use_namespaces = True
 
 # The DHCP server can assist with providing metadata support on isolated
 # networks. Setting this value to True will cause the DHCP server to append

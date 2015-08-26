@@ -182,11 +182,6 @@ describe 'openstack-model-t::default' do
     it { should be_running }
   end
 
-  describe process("neutron-openvswitch-agent") do
-    its(:user) { should eq "neutron" }
-    it { should be_running }
-  end
-
   describe process("neutron-l3-agent") do
     its(:user) { should eq "neutron" }
     it { should be_running }
@@ -202,8 +197,8 @@ describe 'openstack-model-t::default' do
     it { should be_running }
   end
 
-  describe process("ovsdb-server") do
-    its(:user) { should eq "root" }
+  describe process("neutron-linuxbridge-agent") do
+    its(:user) { should eq "neutron" }
     it { should be_running }
   end
 

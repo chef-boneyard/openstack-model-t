@@ -27,11 +27,12 @@ default[:openstack_model_t][:lvm_physical_volume] = '/dev/sdb1'
 # An IP on the management network, the RED boxes.
 default[:openstack_model_t][:controller_ip] = '127.0.0.1'
 
-# OVS needs a tunnel interface to talk to the other guys, the BROWN boxes.
+# LinuxBridged/OVS needs a tunnel interface to talk to the other guys, the BROWN boxes.
 default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'
 
-# OVS needs an external nic that doesn't have an IP, the TEAL box.
+# LinuxBridge/OVS needs an external nic that doesn't have an IP, the TEAL box.
 default[:openstack_model_t][:network_node_external_bridge] = 'eth2'
+default[:openstack_model_t][:PROJECT_VLAN_INTERFACE] = 'eth2'
 
 # OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
 default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth1'
@@ -45,6 +46,13 @@ default[:openstack_model_t][:EXTERNAL_GATEWAY_IP] = '10.0.1.1'
 # Neutron demo network options
 default[:openstack_model_t][:DEMO_EXTERNAL_SUBNET] = '192.168.1.0/24'
 default[:openstack_model_t][:DEMO_GATEWAY_IP] = '192.168.1.1'
+
+# linuxbridge setup
+default[:openstack_model_t][:MIN_VLAN_ID] = '20'
+default[:openstack_model_t][:MAX_VLAN_ID] = '50'
+default[:openstack_model_t][:MIN_VXLAN_ID] = '60'
+default[:openstack_model_t][:MAX_VXLAN_ID] = '90'
+default[:openstack_model_t][:VXLAN_GROUP] = '239.1.1.1'
 
 
 # A generic password for everything

@@ -24,7 +24,7 @@ platforms:
   - name: ubuntu-14.04
 
 suites:
-  - name: default-packages
+  - name: default
     run_list:
       - recipe[openstack-model-t::default]
     attributes:

@@ -1,6 +1,6 @@
 [DEFAULT]
 # Print more verbose output (set logging level to INFO instead of default WARNING level).
-verbose = True
+# verbose = False
 
 # =========Start Global Config Option for Distributed L3 Router===============
 # Setting the "router_distributed" flag to "True" will default to the creation
@@ -699,7 +699,7 @@ password = <%= node[:openstack_model_t][:NEUTRON_PASS] %>
 # This line MUST be changed to actually run the plugin.
 # Example:
 #connection = sqlite:////var/lib/neutron/neutron.sqlite
-connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/neutron
+#connection = mysql://neutron:<%= node[:openstack_model_t][:NEUTRON_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/neutron
 # Replace 127.0.0.1 above with the IP address of the database used by the
 # main neutron server. (Leave it as is if the database runs on this host.)
 # connection = sqlite://

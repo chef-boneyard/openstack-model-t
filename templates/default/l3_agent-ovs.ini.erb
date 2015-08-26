@@ -4,7 +4,7 @@
 
 # L3 requires that an interface driver be set. Choose the one that best
 # matches your plugin.
-interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+interface_driver = neutron.agent.linux.interface.OVSInterfaceDriver
 
 # Example of interface_driver option for OVS based plugins (OVS, Ryu, NEC)
 # that supports L3 agent
@@ -22,7 +22,7 @@ interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
 # iproute2 package that supports namespaces). This option is deprecated and
 # will be removed in a future release, at which point the old behavior of
 # use_namespaces = True will be enforced.
-use_namespaces = True
+# use_namespaces = True
 
 # If use_namespaces is set as False then the agent can only configure one router.
 
