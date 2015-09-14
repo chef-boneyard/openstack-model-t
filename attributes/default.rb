@@ -31,8 +31,8 @@ default[:openstack_model_t][:controller_ip] = '127.0.0.1'
 default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'
 
 # LinuxBridge/OVS needs an external nic that doesn't have an IP, the TEAL box.
-default[:openstack_model_t][:network_node_external_bridge] = 'eth2'
-default[:openstack_model_t][:PROJECT_VLAN_INTERFACE] = 'eth2'
+default[:openstack_model_t][:network_node_external_bridge] = 'eth1'
+default[:openstack_model_t][:PROJECT_VLAN_INTERFACE] = 'eth1'
 
 # OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
 default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth1'
