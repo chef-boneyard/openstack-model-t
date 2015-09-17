@@ -1,7 +1,7 @@
 [DEFAULT]
 dhcpbridge_flagfile=/etc/nova/nova.conf
 dhcpbridge=/usr/bin/nova-dhcpbridge
-logdir=/var/log/nova
+log_dir=/var/log/nova
 state_path=/var/lib/nova
 lock_path=/var/lock/nova
 force_dhcp_release=True
@@ -19,10 +19,10 @@ linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 vnc_enabled = True
-vncserver_listen = <%= node[:openstack_model_t][:controller_ip] %>
-vncserver_proxyclient_address = <%= node[:openstack_model_t][:controller_ip] %>
+vncserver_listen = <%= node[:ipaddress] %>
+vncserver_proxyclient_address = <%= node[:ipaddress] %>
 
-novncproxy_base_url = http://<%= node[:openstack_model_t][:controller_ip] %>:6080/vnc_auto.html
+novncproxy_base_url = http://<%= node[:ipaddress] %>:6080/vnc_auto.html
 
 [glance]
 host = <%= node[:openstack_model_t][:controller_ip] %>
