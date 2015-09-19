@@ -16,7 +16,7 @@ interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
 # ovs_use_veth = False
 
 # Example of interface_driver option for LinuxBridge
-# interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
+interface_driver = neutron.agent.linux.interface.BridgeInterfaceDriver
 
 # Allow overlapping IP (Must have kernel build with CONFIG_NET_NS=y and
 # iproute2 package that supports namespaces). This option is deprecated and
@@ -106,7 +106,7 @@ router_delete_namespaces = True
 # - dvr_snat: this enables centralized SNAT support in conjunction with
 #   DVR. This mode must be used for an L3 agent running on a centralized
 #   node (or in single-host deployments, e.g. devstack).
-# agent_mode = legacy
+agent_mode = dvr_snat
 
 # Location to store keepalived and all HA configurations
 # ha_confs_path = $state_path/ha_confs

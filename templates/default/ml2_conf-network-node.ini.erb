@@ -106,7 +106,7 @@ firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 
 [linux_bridge]
 # physical_interface_mappings = vlan:<%= node[:openstack_model_t][:PROJECT_VLAN_INTERFACE] %>,external:<%= node[:openstack_model_t][:network_node_external_bridge] %>
-# physical_interface_mappings = <%= node[:openstack_model_t][:network_node_external_bridge] %>
+physical_interface_mappings = external:<%= node[:openstack_model_t][:network_node_external_bridge] %>
 
 [vxlan]
 enable_vxlan = True

@@ -15,7 +15,8 @@ auth_strategy = keystone
 my_ip = <%= node[:openstack_model_t][:controller_ip] %>
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron
-linuxnet_interface_driver = nova.network.linux_net.LinuxOVSInterfaceDriver
+interface_driver = nova.network.linux_net.LinuxBridgeInterfaceDriver
+vif_driver = nova.virt.libvirt.vif.NeutronLinuxBridgeVIFDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
 vnc_enabled = True
