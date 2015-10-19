@@ -67,14 +67,15 @@ template "/etc/neutron/plugins/ml2/ml2_conf.ini" do
 end
 
 bash "run neutron-mange db sync" do
-  user "neutron"
+  user "root"
   cwd "/tmp"
-  creates "maybe"
+  creates "/root/model-t-setup/created-neutron-dbs"
   notifies :restart, 'service[nova-api]', :immediately
   notifies :restart, 'service[neutron-server]', :immediately
   code <<-EOH
     STATUS=0
-    neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head || STATUS=1
+    /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head" neutron || STATUS=1
+    touch /root/model-t-setup/created-neutron-dbs
     exit $STATUS
   EOH
 end

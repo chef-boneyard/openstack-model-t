@@ -100,9 +100,9 @@ firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 # local_ip = <%= node[:openstack_model_t][:instance_tunnel_ip] %>
 # bridge_mappings = external:br-ex
 
-# [agent]
+[agent]
 
-# tunnel_types = gre
+tunnel_types = gre
 
 [linux_bridge]
 # physical_interface_mappings = vlan:<%= node[:openstack_model_t][:PROJECT_VLAN_INTERFACE] %>,external:<%= node[:openstack_model_t][:network_node_external_bridge] %>
