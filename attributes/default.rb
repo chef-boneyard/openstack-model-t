@@ -53,7 +53,8 @@ default[:openstack_model_t][:MAX_VLAN_ID] = '50'
 default[:openstack_model_t][:MIN_VXLAN_ID] = '60'
 default[:openstack_model_t][:MAX_VXLAN_ID] = '90'
 default[:openstack_model_t][:VXLAN_GROUP] = '239.1.1.1'
-
+default[:openstack_model_t][:MIN_VXLAN_ID] = '1'
+default[:openstack_model_t][:MAX_VXLAN_ID] = '1000'
 
 # A generic password for everything
 imlazy = 'mypass'

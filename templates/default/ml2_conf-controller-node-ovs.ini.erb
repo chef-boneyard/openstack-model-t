@@ -75,13 +75,14 @@ tunnel_id_ranges = 1:1000
 # (ListOpt) Comma-separated list of <vni_min>:<vni_max> tuples enumerating
 # ranges of VXLAN VNI IDs that are available for tenant network allocation.
 #
-# vni_ranges =
+vni_ranges = <%= node[:openstack_model_t][:MIN_VXLAN_ID] %>:<%= node[:openstack_model_t][:MAX_VXLAN_ID] %>
+
 
 # (StrOpt) Multicast group for the VXLAN interface. When configured, will
 # enable sending all broadcast traffic to this multicast group. When left
 # unconfigured, will disable multicast VXLAN mode.
-#
-# vxlan_group =
+
+vxlan_group = <%= node[:openstack_model_t][:VXLAN_GROUP] %>
 # Example: vxlan_group = 239.1.1.1
 
 [securitygroup]

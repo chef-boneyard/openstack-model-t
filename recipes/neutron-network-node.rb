@@ -35,19 +35,19 @@ end
   end
 end
 
-template "/etc/neutron/neutron.conf" do
-  source "neutron-network.conf.erb"
-  owner "neutron"
-  group "neutron"
-  mode "0644"
-end
+# template "/etc/neutron/neutron.conf" do
+#   source "neutron-network.conf.erb"
+#   owner "neutron"
+#   group "neutron"
+#   mode "0644"
+# end
 
-template "/etc/neutron/plugins/ml2/ml2_conf.ini" do
-  source "ml2_conf-network-node.ini.erb"
-  owner "neutron"
-  group "neutron"
-  mode "0644"
-end
+# template "/etc/neutron/plugins/ml2/ml2_conf.ini" do
+#   source "ml2_conf-network-node.ini.erb"
+#   owner "neutron"
+#   group "neutron"
+#   mode "0644"
+# end
 
 template "/etc/neutron/l3_agent.ini" do
   source "l3_agent.ini.erb"

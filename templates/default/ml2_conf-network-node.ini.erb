@@ -2,19 +2,19 @@
 # (ListOpt) List of network type driver entrypoints to be loaded from
 # the neutron.ml2.type_drivers namespace.
 #
-#type_drivers = flat,vlan,gre,vxlan
+type_drivers = flat,vlan,vxlan
 # Example: type_drivers = flat,vlan,gre,vxlan
 
 # (ListOpt) Ordered list of network_types to allocate as tenant
 # networks. The default value 'local' is useful for single-box testing
 # but provides no connectivity between hosts.
 #
-#tenant_network_types = gre
+tenant_network_types = vxlan
 # Example: tenant_network_types = vlan,gre,vxlan
 
 # (ListOpt) Ordered list of networking mechanism driver entrypoints
 # to be loaded from the neutron.ml2.mechanism_drivers namespace.
-#mechanism_drivers = openvswitch
+mechanism_drivers = linuxbridge
 # Example: mechanism_drivers = openvswitch,mlnx
 # Example: mechanism_drivers = arista
 # Example: mechanism_drivers = cisco,logger
@@ -75,13 +75,13 @@ tunnel_id_ranges = 1:1000
 # (ListOpt) Comma-separated list of <vni_min>:<vni_max> tuples enumerating
 # ranges of VXLAN VNI IDs that are available for tenant network allocation.
 #
-# vni_ranges =
+vni_ranges = <%= node[:openstack_model_t][:MIN_VXLAN_ID] %>:<%= node[:openstack_model_t][:MAX_VXLAN_ID] %>
 
 # (StrOpt) Multicast group for the VXLAN interface. When configured, will
 # enable sending all broadcast traffic to this multicast group. When left
 # unconfigured, will disable multicast VXLAN mode.
 #
-# vxlan_group =
+vxlan_group = <%= node[:openstack_model_t][:VXLAN_GROUP] %>
 # Example: vxlan_group = 239.1.1.1
 
 [securitygroup]
@@ -95,14 +95,6 @@ enable_security_group = True
 enable_ipset = True
 firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 
-# [ovs]
-
-# local_ip = <%= node[:openstack_model_t][:instance_tunnel_ip] %>
-# bridge_mappings = external:br-ex
-
-[agent]
-
-tunnel_types = gre
 
 [linux_bridge]
 # physical_interface_mappings = vlan:<%= node[:openstack_model_t][:PROJECT_VLAN_INTERFACE] %>,external:<%= node[:openstack_model_t][:network_node_external_bridge] %>
@@ -111,4 +103,3 @@ physical_interface_mappings = external:<%= node[:openstack_model_t][:network_nod
 [vxlan]
 enable_vxlan = True
 local_ip = <%= node[:openstack_model_t][:instance_tunnel_ip] %>
-l2_population = True
