@@ -4,6 +4,7 @@
 #
 # Copyright (c) 2015 The Authors, All Rights
 
+
 %w{nova-compute sysfsutils}.each do |pkg|
   package pkg do
     action [:install]

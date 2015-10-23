@@ -12,7 +12,10 @@ api_paste_config=/etc/nova/api-paste.ini
 enabled_apis=ec2,osapi_compute,metadata
 rpc_backend = rabbit
 auth_strategy = keystone
-my_ip = <%= node[:openstack_model_t][:controller_ip] %>
+my_ip = <%= node['ipaddress'] %>
+rabbit_host = <%= node[:openstack_model_t][:controller_ip] %>
+rabbit_userid = openstack
+rabbit_password = <%= node[:openstack_model_t][:RABBIT_PASS] %>
 
 network_api_class = nova.network.neutronv2.api.API
 security_group_api = neutron

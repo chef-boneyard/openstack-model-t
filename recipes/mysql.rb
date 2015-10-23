@@ -11,18 +11,26 @@
   end
 end
 
-template "/etc/mysql/conf.d/mysql_openstack.cnf" do
-  source "mysql_openstack.cnf.erb"
+template "/etc/mysql/my.cnf" do
+  source "my.cnf.erb"
   owner "root"
   group "root"
   mode "0644"
 end
 
- bash "secure_mysql_instance" do
-   user "root"
-   cwd "/tmp"
-   creates "/etc/mysql/.secure-mariadb"
-   code <<-EOH
+template "/etc/mysql/conf.d/mysql_openstack.cnf" do
+  source "mysql_openstack.cnf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, 'service[mysql]', :immediately
+end
+
+bash "secure_mysql_instance" do
+  user "root"
+  cwd "/tmp"
+  creates "/etc/mysql/.secure-mariadb"
+  code <<-EOH
      STATUS=0
      mysql -e "DROP USER ''@'localhost'"
      mysql -e "DROP USER ''@'$(hostname)'"
@@ -32,4 +40,9 @@ end
      touch /etc/mysql/.secure-mariadb || STATUS=1
      exit $STATUS
    EOH
+end
+
+service "mysql" do
+  supports :status => true, :restart => true, :truereload => true
+  action [ :enable, :start ]
 end
