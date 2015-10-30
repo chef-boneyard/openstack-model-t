@@ -20,6 +20,7 @@ bash "update apt repos because i want to make sure we don't bomb out" do
     apt-get install -y software-properties-common || STATUS=1
     add-apt-repository cloud-archive:#{node[:openstack_model_t][:release]} || STATUS=1
     apt-get update || STATUS=1
+    echo "127.0.0.1			#{node[:openstack_model_t][:controller_servername]}" >> /etc/hosts || STATUS=1
     exit $STATUS
   EOH
 end

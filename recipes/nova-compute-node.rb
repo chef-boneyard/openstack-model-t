@@ -5,10 +5,23 @@
 # Copyright (c) 2015 The Authors, All Rights
 
 
-%w{nova-compute sysfsutils}.each do |pkg|
+%w{nova-compute sysfsutils python-guestfs libguestfs-tools}.each do |pkg|
   package pkg do
     action [:install]
   end
+end
+
+bash "libguestfs stuff" do
+  user "root"
+  cwd "/tmp"
+  creates "/etc/nova/libguestfs_setup"
+  code <<-EOH
+    STATUS=0
+    /usr/sbin/update-guestfs-appliance || STATUS=1
+    chmod 0644 /boot/vmlinuz*  || STATUS=1
+    touch /etc/nova/libguestfs_setup
+    exit $STATUS
+  EOH
 end
 
 template "/etc/nova/nova.conf" do

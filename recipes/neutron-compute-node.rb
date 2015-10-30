@@ -40,32 +40,20 @@ end
 end
 
 template "/etc/neutron/neutron.conf" do
-  source "neutron-compute-node.erb"
+  source "neutron-compute-node.conf.erb"
   owner "neutron"
   group "neutron"
   mode "0644"
 end
 
 template "/etc/neutron/plugins/ml2/ml2_conf.ini" do
-  source "ml2_conf-compute-node.ini.erb"
+  source "ml2_conf-controller-node.ini.erb"
   owner "neutron"
   group "neutron"
   mode "0644"
 end
 
-template "/etc/nova/nova.conf" do
-  source "nova-compute-node.conf.erb"
-  owner "nova"
-  group "nova"
-  mode "0644"
-end
-
-service 'neutron-linuxbridge-agent' do
-  supports :restart => true, :reload => true
-  action :restart
-end
-
-service 'nova-compute' do
+service 'neutron-plugin-linuxbridge-agent' do
   supports :restart => true, :reload => true
   action :restart
 end

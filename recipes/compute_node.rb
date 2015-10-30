@@ -11,7 +11,11 @@ package "ntp" do
   action :install
 end
 
-bash "update apt repos because i want to make sure we don't bomb out" do
+package "nbd-client" do
+  action :install
+end
+
+bash "update apt and some other cleanup repos because i want to make sure we don't bomb out" do
   user "root"
   cwd "/tmp"
   creates "maybe"
@@ -20,6 +24,8 @@ bash "update apt repos because i want to make sure we don't bomb out" do
     apt-get install -y software-properties-common || STATUS=1
     add-apt-repository cloud-archive:#{node[:openstack_model_t][:release]} || STATUS=1
     apt-get update || STATUS=1
+    echo "127.0.0.1			#{node[:hostname]}" >> /etc/hosts || STATUS=1
+    modprobe nbd || STATUS=1
     exit $STATUS
   EOH
 end
@@ -39,3 +45,4 @@ template "/root/demo-openrc.sh" do
 end
 
 include_recipe 'openstack-model-t::nova-compute-node'
+include_recipe 'openstack-model-t::neutron-compute-node'
