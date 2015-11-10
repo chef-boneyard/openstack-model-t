@@ -22,7 +22,7 @@ firewall_driver = nova.virt.firewall.NoopFirewallDriver
 vnc_enabled = True
 vncserver_listen = 0.0.0.0
 vncserver_proxyclient_address = <%= node[:ipaddress] %>
-novncproxy_base_url = http://<%= node[:openstack_model_t][:controller_ip] %>:6080/vnc_auto.html
+novncproxy_base_url = http://<%= node[:openstack_model_t][:controller_managementip] %>:6080/vnc_auto.html
 
 [glance]
 host = <%= node[:openstack_model_t][:controller_ip] %>

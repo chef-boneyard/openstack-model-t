@@ -9,6 +9,9 @@ default[:openstack_model_t][:ubuntu_themeing] = false
 # ServerName for the controller
 default[:openstack_model_t][:controller_servername] = 'controller'
 
+# Management IP for the controller
+default[:openstack_model_t][:controller_managementip] = '172.16.54.137'
+
 # Want hardware acceleration? change from qemu to kvm
 default[:openstack_model_t][:hardware_acceleration] = 'qemu'
 
@@ -34,8 +37,8 @@ default[:openstack_model_t][:instance_tunnel_ip] = '127.0.0.1'
 default[:openstack_model_t][:network_node_external_bridge] = 'eth1'
 default[:openstack_model_t][:PROJECT_VLAN_INTERFACE] = 'eth1'
 
-# OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
-default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth1'
+# LinuxBridge/OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROWN box on Compute Node(s)
+default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth2'
 
 # Neutron external network options
 default[:openstack_model_t][:EXTERNAL_SUBNET] = '10.0.1.0/24'
