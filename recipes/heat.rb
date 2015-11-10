@@ -46,7 +46,7 @@ bash "create heat service and api endpoint" do
     openstack service create --name heat --description "OpenStack Orchestration" cloudformation
     openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8004/v1/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8004/v1/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8004/v1/%\\(tenant_id\\)s --region RegionOne orchestration
     openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8000/v1/ --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8000/v1/ --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8000/v1/ --region RegionOne cloudformation
-    touch /root/model-t-setup/created-glance-service-and-api
+    touch /root/model-t-setup/created-heat-service-and-api
     exit $STATUS
   EOH
 end

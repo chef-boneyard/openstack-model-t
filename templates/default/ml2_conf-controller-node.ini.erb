@@ -2,7 +2,7 @@
 # (ListOpt) List of network type driver entrypoints to be loaded from
 # the neutron.ml2.type_drivers namespace.
 #
-type_drivers = flat,vxlan
+type_drivers = flat,vxlan,vlan
 # Example: type_drivers = flat,vlan,gre,vxlan
 
 # (ListOpt) Ordered list of network_types to allocate as tenant
@@ -50,7 +50,7 @@ mechanism_drivers = linuxbridge
 # ======== end of items for MTU selection and advertisement =========
 
 [linux_bridge]
-physical_interface_mappings = public:<%= node[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] %>
+physical_interface_mappings = public:eth1,demo-net:<%= node[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] %>
 
 [ml2_type_flat]
 # (ListOpt) List of physical_network names with which flat networks
@@ -67,7 +67,7 @@ flat_networks = public
 # tenant networks, as well as ranges of VLAN tags on each
 # physical_network available for allocation as tenant networks.
 #
-network_vlan_ranges = external,vlan:<%= node[:openstack_model_t][:MIN_VLAN_ID] %>:<%= node[:openstack_model_t][:MAX_VLAN_ID] %>
+network_vlan_ranges = None
 # Example: network_vlan_ranges = physnet1:1000:2999,physnet2
 
 #[ml2_type_gre]
@@ -88,7 +88,6 @@ vxlan_group = <%= node[:openstack_model_t][:VXLAN_GROUP] %>
 # Example: vxlan_group = 239.1.1.1
 
 [VXLAN]
-# add this as the "tunnel network" this should be eth2's ipaddress here.
 
 
 [securitygroup]
