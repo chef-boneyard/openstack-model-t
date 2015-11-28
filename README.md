@@ -7,17 +7,61 @@
 
 ## General Info
 
-This is a build of OpenStack that is taken directly from the [install-guide](http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_preface.html) and is *opinionated*. This will only every be a [Ubuntu](https://wiki.ubuntu.com/ServerTeam/CloudArchive) build, and at the time of this release [Ubuntu 14.04 LTS](http://releases.ubuntu.com/14.04/). The goal of this build is to show you what you can do with [chef](http://chef.io) and [openstack](http://openstack.org).
+This is a build of OpenStack that is taken directly from the [install-guide](http://docs.openstack.org/kilo/install-guide/install/apt/content/ch_preface.html)
+and is *opinionated*. This will only every be a [Ubuntu](https://wiki.ubuntu.com/ServerTeam/CloudArchive)
+build, and at the time of this release [Ubuntu 14.04 LTS](http://releases.ubuntu.com/14.04/).
+The goal of this build is to show you what you can do with [chef](http://chef.io)
+and [openstack](http://openstack.org).
 
-This build is also [test-kitchened](http://kitchen.ci) with a good coverage of [serverspec](http://serverspec.org/) tests. I strongly suggest you get the latest [chef-dk](https://downloads.chef.io/chef-dk/) and leverage it as your build platform.
+This build is also [test-kitchened](http://kitchen.ci) with a good coverage of [serverspec](http://serverspec.org/)
+tests. I strongly suggest you get the latest [chef-dk](https://downloads.chef.io/chef-dk/)
+and leverage it as your build platform.
 
-## Attributes to change/override.
+If you would like to build it out via test-kitchen, you can run the following:
+
+```bash
+git clone https://github.com/chef-partners/openstack-model-t.git
+cd openstack-model-t
+chef exec kitchen verify
+```
+
+After the build is completed, and the serverspec is ran, you should do the following:
+
+```bash
+chef exec kitchen login
+sudo su -
+bash build_neutron_networks.sh
+```
+
+The `build_neutron_networks.sh` script builds out an external network and internal
+tenant network for a user account of `demo`. You can override the options via override
+attributes if you would like to do this on real hardware.
+
+After the `build_neutron_networks.sh` is built out, you can go to https://127.0.0.1:8443/horizon
+and log in as `demo`/`mypass` and you should be able to spin up a CirrOS image.
+
+**NOTE**: The networking can be funky virtual space, it's a hit and miss for pinging
+out. You will be able to spin up the CirrOS image, console in via horizon, but
+actually sshing out may fail. If you like what you see I strongly suggest building
+this on physical hardware per the reference architecture below.
+
+## Attributes
+
+### Moving to hardware and want acceleration?
+
+Test via:
+
+`egrep -c '(vmx|svm)' /proc/cpuinfo`
+
+If it comes back anything other than zero, you should override this attribute to `kvm`.
+
+`default[:openstack_model_t][:hardware_acceleration] = 'qemu'`
 
 **WARNING**:
 
 Admin token for keystone this is insecure, you probably should remove this after deployment for security reasons, disable the temporary authentication token mechanism: edit the `/etc/keystone/keystone-paste.ini` file and remove admin_token_auth from the `[pipeline:public_api]`, `[pipeline:admin_api]`, and `[pipeline:api_v3]` sections. Unset the temporary `OS_TOKEN` and `OS_URL` environment variables: `default[:openstack_model_t][:admin_token] = 'b14feea8128a0a1bbd60'`
 
-### Networking stuff
+### Networking
 
 ![minimal-arch-example](http://docs.openstack.org/kilo/install-guide/install/apt/content/figures/1/a/common/figures/installguidearch-neutron-networks.png)
 
@@ -41,32 +85,8 @@ OVS compute nodes have: INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS, which is the BROW
 
 `default[:openstack_model_t][:INSTANCE_TUNNELS_INTERFACE_IP_ADDRESS] = 'eth2'`
 
+## Recipes
 
-### Hardware acceleration?
+`default` : all in one recipe. Has the complete stack for a compute OpenStack cloud.
 
-Test via:
-
-`egrep -c '(vmx|svm)' /proc/cpuinfo`
-
-If it comes back anything other than zero, you should override this attribute to `kvm`.
-
-`default[:openstack_model_t][:hardware_acceleration] = 'qemu'`
-
-
-## TODO
-- Write a cleanup recipe
-- Write up the ability to split out the db machine to another host "mysql -h blahblah"
-- Write up a openstack/horizon from SRC build, the ubuntu branded is ugly :(
-
-
-Keystone instance:
-default,mysql,keystone
-
-Glance instance:
-default,mysql,glance
-
-Nova-controller:
-default,mysql,nova-controller-node
-
-Nova-compute:
-default,mysql,nova-compute-node
+`compute_node` : only installs the required portions for creating a compute node to extend out an all in one build.
