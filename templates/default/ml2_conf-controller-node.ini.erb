@@ -2,7 +2,7 @@
 # (ListOpt) List of network type driver entrypoints to be loaded from
 # the neutron.ml2.type_drivers namespace.
 #
-type_drivers = flat,vxlan,vlan
+type_drivers = flat,vlan,vxlan
 # Example: type_drivers = flat,vlan,gre,vxlan
 
 # (ListOpt) Ordered list of network_types to allocate as tenant
@@ -14,7 +14,7 @@ tenant_network_types = vxlan
 
 # (ListOpt) Ordered list of networking mechanism driver entrypoints
 # to be loaded from the neutron.ml2.mechanism_drivers namespace.
-mechanism_drivers = linuxbridge
+mechanism_drivers = linuxbridge,l2population
 # Example: mechanism_drivers = openvswitch,mlnx
 # Example: mechanism_drivers = arista
 # Example: mechanism_drivers = cisco,logger
@@ -23,7 +23,7 @@ mechanism_drivers = linuxbridge
 
 # (ListOpt) Ordered list of extension driver entrypoints
 # to be loaded from the neutron.ml2.extension_drivers namespace.
-# extension_drivers =
+extension_drivers = port_security
 # Example: extension_drivers = anewextensiondriver
 
 # =========== items for MTU selection and advertisement =============
@@ -57,7 +57,7 @@ physical_interface_mappings = public:eth1,demo-net:<%= node[:openstack_model_t][
 # can be created. Use * to allow flat networks with arbitrary
 # physical_network names.
 #
-flat_networks = public
+flat_entworks = public
 # Example:flat_networks = physnet1,physnet2
 # Example:flat_networks = *
 
@@ -88,16 +88,19 @@ vxlan_group = <%= node[:openstack_model_t][:VXLAN_GROUP] %>
 # Example: vxlan_group = 239.1.1.1
 
 [VXLAN]
-
+enable_vxlan = True
+local_ip = <%= node[:openstack_model_t][:EXTERNAL_SUBNET] %>
+l2_population = True
 
 [securitygroup]
 # Controls if neutron security group is enabled or not.
 # It should be false when you use nova security group.
-# enable_security_group = True
+enable_security_group = True
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
 
 # Use ipset to speed-up the iptables security groups. Enabling ipset support
 # requires that ipset is installed on L2 agent node.
-# enable_ipset = True
+enable_ipset = True
 enable_security_group = True
 enable_ipset = True
 firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
