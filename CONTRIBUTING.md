@@ -35,7 +35,7 @@ copyright to your contribution.
 ## Using git
 
 You can get a quick copy of the repository for this cookbook by
-running ```https://github.com/chef-partners/maas```.
+running ```git clone https://github.com/chef-partners/openstack-model-t```.
 
 For collaboration purposes, it is best if you create a Github account
 and fork the repository to your own account. Once you do this you will
