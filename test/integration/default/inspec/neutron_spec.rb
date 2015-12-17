@@ -1,6 +1,6 @@
 describe port(9696) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe service('neutron-dhcp-agent') do

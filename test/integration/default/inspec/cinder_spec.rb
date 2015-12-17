@@ -1,6 +1,6 @@
 describe port(8776) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe file('/etc/cinder/cinder.conf') do

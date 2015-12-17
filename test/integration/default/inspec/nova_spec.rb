@@ -1,16 +1,16 @@
 describe port(8773) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe port(8774) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe port(8775) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe file('/etc/nova/nova.conf') do

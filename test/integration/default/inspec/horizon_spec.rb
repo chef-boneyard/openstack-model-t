@@ -1,6 +1,6 @@
 describe port(8443) do
   it { should be_listening }
-  its('process') { should eq 'apache2' }
+  its('processes') { should eq 'apache2' }
 end
 
 describe file('/etc/openstack-dashboard/local_settings.py') do

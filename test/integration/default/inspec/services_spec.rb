@@ -1,21 +1,21 @@
 describe port(80) do
   it { should be_listening }
-  its('process') { should eq 'mysqld' }
+  its('processes') { should eq 'mysqld' }
 end
 
 describe port(3306) do
   it { should be_listening }
-  its('process') { should eq 'mysqld' }
+  its('processes') { should eq 'mysqld' }
 end
 
 describe port(5672) do
   it { should be_listening }
-  its('process') { should eq 'beam.smp' }
+  its('processes') { should eq 'beam.smp' }
 end
 
 describe port(11211) do
   it { should be_listening }
-  its('process') { should eq 'memcached' }
+  its('processes') { should eq 'memcached' }
 end
 
 describe file('/root/passwords2dostuff') do

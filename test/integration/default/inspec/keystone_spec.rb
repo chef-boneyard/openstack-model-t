@@ -1,11 +1,11 @@
 describe port(5000) do
   it { should be_listening }
-  its('process') { should eq 'apache2' }
+  its('processes') { should eq 'apache2' }
 end
 
 describe port(35357) do
   it { should be_listening }
-  its('process') { should eq 'apache2' }
+  its('processes') { should eq 'apache2' }
 end
 
 describe file('/etc/keystone/keystone.conf') do

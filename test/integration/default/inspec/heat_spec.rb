@@ -1,11 +1,11 @@
 describe port(8000) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe port(8004) do
   it { should be_listening }
-  its('process') { should eq 'python' }
+  its('processes') { should eq 'python' }
 end
 
 describe file('/etc/heat/heat.conf') do
