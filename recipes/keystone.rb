@@ -89,41 +89,6 @@ link '/etc/apache2/sites-enabled/wsgi-keystone.conf' do
   to '/etc/apache2/sites-available/wsgi-keystone.conf'
 end
 
-%w[ /var/www/cgi-bin /var/www/cgi-bin/keystone ].each do |path|
-  directory path do
-    owner 'keystone'
-    group 'keystone'
-    mode '0755'
-    notifies :restart, 'service[apache2]', :delayed
-  end
-end
-
-remote_file '/var/www/cgi-bin/keystone/main' do
-  source "http://git.openstack.org/cgit/openstack/keystone/plain/httpd/keystone.py?h=stable/#{node[:openstack_model_t][:release]}"
-  mode '0644'
-  notifies :restart, 'service[apache2]', :delayed
-end
-
-remote_file '/var/www/cgi-bin/keystone/admin' do
-  source "http://git.openstack.org/cgit/openstack/keystone/plain/httpd/keystone.py?h=stable/#{node[:openstack_model_t][:release]}"
-  mode '0644'
-  notifies :restart, 'service[apache2]', :delayed
-end
-
-bash "change ownership for keystone" do
-  user "root"
-  cwd "/tmp"
-  creates "/var/www/cgi-bin/.ownership4keystone"
-  notifies :restart, 'service[apache2]', :immediately
-  code <<-EOH
-    STATUS=0
-    chown -R keystone:keystone /var/www/cgi-bin/keystone || STATUS=1
-    chmod 755 /var/www/cgi-bin/keystone/* || STATUS=1
-    touch /var/www/cgi-bin/.ownership4keystone
-    exit $STATUS
-  EOH
-end
-
 file '/var/lib/keystone/keystone.db' do
   action :delete
 end
@@ -153,7 +118,9 @@ bash "create keystone api endpoint" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 --internalurl http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:35357/v2.0 --region RegionOne identity || STATUS=1
+    openstack endpoint create --region RegionOne identity public http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 || STATUS=1
+    openstack endpoint create --region RegionOne identity internal http://#{node[:openstack_model_t][:controller_ip]}:5000/v2.0 || STATUS=1
+    openstack endpoint create --region RegionOne identity admin http://#{node[:openstack_model_t][:controller_ip]}:35357/v2.0 || STATUS=1
     touch /root/model-t-setup/created-keystone-api-endpoint || STATUS=1
     exit $STATUS
   EOH
@@ -166,8 +133,8 @@ bash "create admin project, user and role" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack project create --description "Admin Project" admin || STATUS=1
-    openstack user create --password #{node[:openstack_model_t][:ADMIN_PASS]} admin || STATUS=1
+    openstack project create --domain default --description "Admin Project" admin || STATUS=1
+    openstack user create --domain default --password #{node[:openstack_model_t][:ADMIN_PASS]} admin || STATUS=1
     openstack role create admin || STATUS=1
     openstack role add --project admin --user admin admin || STATUS=1
     touch /root/model-t-setup/created-admin-project-user-role || STATUS=1
@@ -182,8 +149,8 @@ bash "create service and demo projects" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack project create --description "Service Project" service || STATUS=1
-    openstack project create --description "Demo Project" demo || STATUS=1
+    openstack project create --domain default --description "Service Project" service || STATUS=1
+    openstack project create --domain default --description "Demo Project" demo || STATUS=1
     touch /root/model-t-setup/created-service-and-demo-projects || STATUS=1
     exit $STATUS
   EOH

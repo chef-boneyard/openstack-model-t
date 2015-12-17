@@ -25,7 +25,7 @@ bash "create neutron user" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack user create --password #{node[:openstack_model_t][:NEUTRON_PASS]} neutron || STATUS=1
+    openstack user create --domain default --password #{node[:openstack_model_t][:NEUTRON_PASS]} neutron || STATUS=1
     openstack role add --project service --user neutron admin || STATUS=1
     touch /root/model-t-setup/created-neutron-user || STATUS=1
     exit $STATUS

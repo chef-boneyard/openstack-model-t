@@ -9,7 +9,7 @@ libvirt_use_virtio_for_bridges=True
 verbose=True
 ec2_private_dns_show_ip=True
 api_paste_config=/etc/nova/api-paste.ini
-enabled_apis=ec2,osapi_compute,metadata
+enabled_apis=osapi_compute,metadata
 rpc_backend = rabbit
 auth_strategy = keystone
 my_ip = <%= node[:openstack_model_t][:controller_ip] %>
@@ -19,7 +19,7 @@ interface_driver = nova.network.linux_net.LinuxBridgeInterfaceDriver
 vif_driver = nova.virt.libvirt.vif.NeutronLinuxBridgeVIFDriver
 firewall_driver = nova.virt.firewall.NoopFirewallDriver
 
-vnc_enabled = True
+[vnc]
 vncserver_listen = <%= node[:ipaddress] %>
 vncserver_proxyclient_address = <%= node[:ipaddress] %>
 
@@ -32,7 +32,7 @@ host = <%= node[:openstack_model_t][:controller_ip] %>
 lock_path = /var/lib/nova/tmp
 
 [database]
-connection = mysql://nova:<%= node[:openstack_model_t][:NOVA_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/nova
+connection = mysql+pymsql://nova:<%= node[:openstack_model_t][:NOVA_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/nova
 
 [oslo_messaging_rabbit]
 

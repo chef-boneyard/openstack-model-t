@@ -1,7 +1,7 @@
 
 
 # The release you want to build your OpenStack cloud
-default[:openstack_model_t][:release] = 'kilo'
+default[:openstack_model_t][:release] = 'liberty'
 
 # Default to turning off Ubuntu thememing for the dashboard
 default[:openstack_model_t][:ubuntu_themeing] = false
@@ -20,12 +20,14 @@ default[:openstack_model_t][:default_install_location] = '/opt/model-t'
 
 # You'll want to set up a location for lvm
 # You should probably read:
-# http://docs.openstack.org/kilo/install-guide/install/apt/content/cinder-install-storage-node.html
+# http://docs.openstack.org/liberty/install-guide-ubuntu/
+# http://docs.openstack.org/liberty/install-guide/install/apt/content/cinder-install-storage-node.html
 default[:openstack_model_t][:lvm_device] = 'sdb'
 default[:openstack_model_t][:lvm_physical_volume] = '/dev/sdb1'
 
 # You should look at:
-# http://docs.openstack.org/kilo/install-guide/install/apt/content/figures/1/a/common/figures/installguidearch-neutron-networks.png
+# http://docs.openstack.org/liberty/install-guide-ubuntu/
+# http://docs.openstack.org/liberty/install-guide/install/apt/content/figures/1/a/common/figures/installguidearch-neutron-networks.png
 
 # An IP on the management network, the RED boxes.
 default[:openstack_model_t][:controller_ip] = '127.0.0.1'
@@ -100,14 +102,8 @@ default[:openstack_model_t][:NOVA_DBPASS] = imlazy
 default[:openstack_model_t][:NOVA_PASS] = imlazy
 # Password of user guest of RabbitMQ
 default[:openstack_model_t][:RABBIT_PASS] = imlazy
-# Database password of Data processing service
-default[:openstack_model_t][:SAHARA_DBPASS] = imlazy
 # Password of Object Storage service user swift
 default[:openstack_model_t][:SWIFT_PASS] = imlazy
-# Database password of Database service
-default[:openstack_model_t][:TROVE_DBPASS] = imlazy
-# Password of Database service user trove
-default[:openstack_model_t][:TROVE_PASS] = imlazy
 
 # Other passwords
 

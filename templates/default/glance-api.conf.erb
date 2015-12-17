@@ -215,7 +215,7 @@ registry_client_protocol = http
 
 # Driver or drivers to handle sending notifications. Set to
 # 'messaging' to send notifications to a message queue.
-# notification_driver = noop
+notification_driver = noop
 
 # Default publisher_id for outgoing notifications.
 # default_publisher_id = image.localhost
@@ -336,7 +336,7 @@ image_cache_dir = /var/lib/glance/image-cache/
 # Deprecated group/name - [DEFAULT]/sql_connection
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
-connection = mysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/glance
+connection = mysql+pymysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/glance
 
 # The SQL mode to be used for MySQL sessions. This option,
 # including the default, overrides any server-set SQL mode. To

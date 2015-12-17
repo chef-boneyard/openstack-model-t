@@ -5,7 +5,7 @@
 # Copyright (c) 2015 The Authors, All Rights Reserved.
 
 
-%w{mariadb-server python-mysqldb}.each do |pkg|
+%w{mariadb-server python-pymsql}.each do |pkg|
   package pkg do
     action [:install]
   end

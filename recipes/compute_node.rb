@@ -7,8 +7,21 @@
 include_recipe 'apt'
 include_recipe 'python'
 
-package "ntp" do
+package "chrony" do
   action :install
+end
+
+template "/etc/chrony/chrony.conf" do
+  source "chrony_compute.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, 'service[chrony]', :immediately
+end
+
+service "chrony" do
+  supports :status => true, :restart => true, :truereload => true
+  action [ :enable, :start ]
 end
 
 package "nbd-client" do
@@ -28,6 +41,10 @@ bash "update apt and some other cleanup repos because i want to make sure we don
     modprobe nbd || STATUS=1
     exit $STATUS
   EOH
+end
+
+package "python-openstackclient" do
+  action :install
 end
 
 template "/root/admin-openrc.sh" do

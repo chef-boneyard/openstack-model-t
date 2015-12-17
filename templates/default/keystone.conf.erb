@@ -417,7 +417,7 @@ log_dir = /var/log/keystone
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
 #connection = <None>
-connection = mysql://keystone:<%= node[:openstack_model_t][:KEYSTONE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/keystone
+connection = mysql+pymysql://keystone:<%= node[:openstack_model_t][:KEYSTONE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/keystone
 
 # The SQLAlchemy connection string to use to connect to the slave database.
 # (string value)
@@ -1494,7 +1494,7 @@ servers = localhost:11211
 
 # An implementation of the backend for persisting revocation events. (string
 # value)
-driver = keystone.contrib.revoke.backends.sql.Revoke
+driver = sql
 
 # This value (calculated in seconds) is added to token expiration before a
 # revocation event may be removed from the backend. (integer value)
@@ -1683,10 +1683,10 @@ driver = keystone.contrib.revoke.backends.sql.Revoke
 # Controls the token construction, validation, and revocation operations. Core
 # providers are "keystone.token.providers.[fernet|pkiz|pki|uuid].Provider".
 # (string value)
-provider = keystone.token.providers.uuid.Provider
+provider = uuid
 
 # Token persistence backend driver. (string value)
-driver = keystone.token.persistence.backends.memcache.Token
+driver = memcache
 
 # Toggle for token system caching. This has no effect unless global caching is
 # enabled. (boolean value)

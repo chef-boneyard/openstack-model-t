@@ -162,7 +162,7 @@ qpid_tcp_nodelay = True
 # Deprecated group/name - [DEFAULT]/sql_connection
 # Deprecated group/name - [DATABASE]/sql_connection
 # Deprecated group/name - [sql]/connection
-connection =  mysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/glance
+connection =  mysql+pymysql://glance:<%= node[:openstack_model_t][:GLANCE_DBPASS] %>@<%= node[:openstack_model_t][:controller_ip] %>/glance
 
 # The SQL mode to be used for MySQL sessions. This option,
 # including the default, overrides any server-set SQL mode. To

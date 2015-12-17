@@ -25,7 +25,7 @@ bash "create nova user" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack user create --password #{node[:openstack_model_t][:NOVA_PASS]} nova || STATUS=1
+    openstack user create --domain default --password #{node[:openstack_model_t][:NOVA_PASS]} nova || STATUS=1
     openstack role add --project service --user nova admin || STATUS=1
     touch /root/model-t-setup/created-nova-user || STATUS=1
     exit $STATUS
@@ -41,7 +41,9 @@ bash "create nova service and api endpoint" do
     STATUS=0
     source passwords2dostuff || STATUS=1
     openstack service create --name nova --description "OpenStack Compute service" compute || STATUS=1
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --internalurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --adminurl http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s --region RegionOne compute
+    openstack endpoint create --region RegionOne compute public http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s || STATUS=1
+    openstack endpoint create --region RegionOne compute internal http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s || STATUS=1
+    openstack endpoint create --region RegionOne compute admin http://#{node[:openstack_model_t][:controller_ip]}:8774/v2/%\\(tenant_id\\)s || STATUS=1
     touch /root/model-t-setup/created-nova-service-and-api
     exit $STATUS
   EOH
@@ -72,13 +74,13 @@ template "/etc/nova/nova.conf" do
   owner "nova"
   group "nova"
   mode "0644"
-  notifies :restart, 'service[nova-compute]', :delayed
   notifies :restart, 'service[nova-api]', :immediately
   notifies :restart, 'service[nova-cert]', :immediately
   notifies :restart, 'service[nova-consoleauth]', :immediately
   notifies :restart, 'service[nova-scheduler]', :immediately
   notifies :restart, 'service[nova-conductor]', :immediately
   notifies :restart, 'service[nova-novncproxy]', :immediately
+  notifies :restart, 'service[nova-compute]', :immediately
 end
 
 template "/etc/nova/nova-compute.conf" do

@@ -7,8 +7,21 @@
 include_recipe 'apt'
 include_recipe 'python'
 
-package "ntp" do
+package "chrony" do
   action :install
+end
+
+template "/etc/chrony/chrony.conf" do
+  source "chrony_controller.conf.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  notifies :restart, 'service[chrony]', :immediately
+end
+
+service "chrony" do
+  supports :status => true, :restart => true, :truereload => true
+  action [ :enable, :start ]
 end
 
 bash "update apt repos because i want to make sure we don't bomb out" do
@@ -23,6 +36,10 @@ bash "update apt repos because i want to make sure we don't bomb out" do
     echo "127.0.0.1			#{node[:openstack_model_t][:controller_servername]}" >> /etc/hosts || STATUS=1
     exit $STATUS
   EOH
+end
+
+package "python-openstackclient" do
+  action :install
 end
 
 template "/root/passwords2dostuff" do
@@ -64,6 +81,7 @@ when 'source'
 end
 
 include_recipe 'openstack-model-t::mysql'
+include_recipe 'openstack-model-t::mongodb'
 include_recipe 'openstack-model-t::rabbitmq'
 include_recipe 'openstack-model-t::keystone'
 include_recipe 'openstack-model-t::glance'
