@@ -10,18 +10,21 @@ namespace :style do
   desc 'Run Chef style checks'
   FoodCritic::Rake::LintTask.new(:chef) do |t|
     t.options = {
-      fail_tags: ['any'],
-      tags: ['~FC005']
+      :fail_tags => ['any'],
+      :tags => [
+        '~FC005',
+        '~FC023'
+      ]
     }
   end
 end
 
 desc 'Run all style checks'
-task style: ['style:chef', 'style:ruby']
+task :style => ['style:chef', 'style:ruby']
 
 # Rspec and ChefSpec
 desc 'Run ChefSpec examples'
 RSpec::Core::RakeTask.new(:spec)
 
 # Default
-task default: ['style', 'spec']
+task :default => %w(style spec)
