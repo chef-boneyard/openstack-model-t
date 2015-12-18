@@ -105,7 +105,7 @@ bash "create keystone service entity" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack service create --name keystone --description "OpenStack Identity" identity || STATUS=1
+    openstack service create --name keystone --description "OpenStack Identity" identity --debug || STATUS=1
     touch /root/model-t-setup/created-keystone-service-entity || STATUS=1
     exit $STATUS
   EOH

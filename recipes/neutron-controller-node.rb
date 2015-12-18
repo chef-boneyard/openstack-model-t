@@ -39,14 +39,16 @@ bash "create neutron service and api endpoint" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack service create --name neutron --description "OpenStack Networking service" network
-    openstack endpoint create --publicurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --internalurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:9696 --region RegionOne network
-    touch /root/model-t-setup/created-neutron-service-and-api
+    openstack service create --name neutron --description "OpenStack Networking service" network || STATUS=1
+    openstack endpoint create --region RegionOne network public http://#{node[:openstack_model_t][:controller_ip]}:9696 || STATUS=1
+    openstack endpoint create --region RegionOne network internal http://#{node[:openstack_model_t][:controller_ip]}:9696 || STATUS=1
+    openstack endpoint create --region RegionOne network admin http://#{node[:openstack_model_t][:controller_ip]}:9696 || STATUS=1
+    touch /root/model-t-setup/created-neutron-service-and-api || STATUS=1
     exit $STATUS
   EOH
 end
 
-%w{neutron-server neutron-plugin-ml2 python-neutronclient}.each do |pkg|
+%w{neutron-server neutron-plugin-ml2 neutron-plugin-linuxbridge-agent neutron-dhcp-agent neutron-metadata-agent python-neutronclient}.each do |pkg|
   package pkg do
     action [:install]
   end
