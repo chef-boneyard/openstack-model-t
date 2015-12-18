@@ -1,11 +1,11 @@
 describe port(9191) do
   it { should be_listening }
-  its('processes') { should eq 'python' }
+  its('processes') { should include 'python' }
 end
 
 describe port(9292) do
   it { should be_listening }
-  its('processes') { should eq 'python' }
+  its('processes') { should include 'python' }
 end
 
 describe file('/etc/glance/glance-api.conf') do
