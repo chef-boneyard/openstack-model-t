@@ -1,5 +1,5 @@
-Listen 0.0.0.0:5000
-Listen 0.0.0.0:35357
+Listen <%= node[:openstack_model_t][:controller_ip] %>:5000
+Listen <%= node[:openstack_model_t][:controller_ip] %>:35357
 
 <VirtualHost *:5000>
     WSGIDaemonProcess keystone-public processes=5 threads=1 user=keystone group=keystone display-name=%{GROUP}

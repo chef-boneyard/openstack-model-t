@@ -25,7 +25,7 @@ bash "create glance user" do
   code <<-EOH
     STATUS=0
     source passwords2dostuff || STATUS=1
-    openstack user create --domain default --password #{node[:openstack_model_t][:GLANCE_PASS]} glance || STATUS=1
+    openstack user create --password #{node[:openstack_model_t][:GLANCE_PASS]} glance || STATUS=1
     openstack role add --project service --user glance admin || STATUS=1
     touch /root/model-t-setup/created-glance-user || STATUS=1
     exit $STATUS
@@ -40,9 +40,7 @@ bash "create glance service and api endpoint" do
     STATUS=0
     source passwords2dostuff || STATUS=1
     openstack service create --name glance --description "OpenStack Image service" image || STATUS=1
-    openstack endpoint create --region RegionOne image public  http://#{node[:openstack_model_t][:controller_ip]}:9292 || STATUS=1
-    openstack endpoint create --region RegionOne image internal  http://#{node[:openstack_model_t][:controller_ip]}:9292 || STATUS=1
-    openstack endpoint create --region RegionOne image admin  http://#{node[:openstack_model_t][:controller_ip]}:9292 || STATUS=1
+    openstack endpoint create --region RegionOne image --publicurl  http://#{node[:openstack_model_t][:controller_ip]}:9292 --internalurl  http://#{node[:openstack_model_t][:controller_ip]}:9292 --adminurl http://#{node[:openstack_model_t][:controller_ip]}:9292
     touch /root/model-t-setup/created-glance-service-and-api || STATUS=1
     exit $STATUS
   EOH
