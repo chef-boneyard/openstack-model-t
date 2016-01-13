@@ -14,6 +14,5 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
-.kitchen.cloud.yml
 
 env/
